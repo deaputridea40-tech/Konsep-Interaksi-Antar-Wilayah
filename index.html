@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interaksi Antar Wilayah Terhadap Pembangunan</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            slate: {
+              50: '#faf9f7',
+              100: '#f2efeb',
+              200: '#e4ded6',
+              300: '#cfc5b8',
+              400: '#b2a595',
+              500: '#948575',
+              600: '#766a5b',
+              700: '#5b5147',
+              800: '#433c35',
+              900: '#312c27',
+              950: '#211e1b'
+            },
+            emerald: {
+              50: '#fff8f0',
+              100: '#ffefdb',
+              200: '#ffddb5',
+              300: '#ffc486',
+              400: '#ffab5b',
+              500: '#ee9652',
+              600: '#d87838',
+              700: '#b85c2d',
+              800: '#914526',
+              900: '#6d341f'
+            },
+            blue: {
+              400: '#f6d1a9',
+              500: '#edb779'
+            },
+            geo: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              900: '#14532d',
+              dark: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: linear-gradient(rgba(255, 239, 219, 0.3), rgba(245, 214, 183, 0.4)), url("asset/ltr.jpg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    @media print {
+      body * { visibility: hidden; }
+      #quizCertificate, #quizCertificate * { visibility: visible; }
+      #quizCertificate {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      .no-print { display: none !important; }
+    }
+    .slide-fade {
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+<style>.lms-source-label {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #e0e0e0;
+    color: #333;
+    border-radius: 10px;
+    padding: 4px 4px;
+    font-family: sans-serif;
+    font-size: 10px;
+    pointer-events: none;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+</style></head>
+<body class="bg-emerald-100/70 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+
+  <!-- MODAL LOGIN / SESI AWAL (WAJIB DIISI) -->
+  <div id="loginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+      
+      <div class="text-center mb-6">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-transparent mb-3 border border-slate-700/60 shadow-inner">
+          <img src="asset/logo.png" alt="Logo" class="w-12 h-12 object-contain">
+        </div>
+        <p class="text-sm font-semibold text-white">Nama: Dhea Putri Sania</p>
+        <p class="text-sm text-slate-300 mb-3">NIM: 25045094</p>
+        <h2 class="text-2xl font-bold text-white tracking-tight">Media Pembelajaran Geografi</h2>
+        <p class="text-sm text-slate-400 mt-1">Interaksi Antar Wilayah Terhadap Pembangunan</p>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">Nama Lengkap Siswa</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500"><i class="fa-solid fa-user"></i></span>
+            <input type="text" id="inputName" required placeholder="Contoh: Budi Santoso" 
+              class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">Asal Sekolah</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500"><i class="fa-solid fa-school"></i></span>
+            <input type="text" id="inputSchool" required placeholder="Contoh: SMAN 1 Jakarta" 
+              class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition">
+          </div>
+        </div>
+
+        <button type="submit" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-500 active:scale-[0.99] text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-emerald-900/30 transition flex items-center justify-center gap-2">
+          <span>Mulai Belajar</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- NAVBAR UTAMA -->
+  <header class="bg-slate-900/90 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-0">
+    <div class="flex min-w-0 items-center gap-3">
+      <div class="w-12 h-12 shrink-0 p-1.5 flex items-center justify-center">
+        <img src="asset/logo.png" alt="Logo Universitas Negeri Padang" class="w-full h-full object-contain">
+      </div>
+      <div class="min-w-0">
+        <h1 class="text-[10px] sm:text-xs font-bold text-white leading-tight">UNIVERSITAS NEGERI PADANG</h1>
+        <p class="text-xs text-emerald-400 font-medium leading-tight">Interaksi Wilayah &amp; Pembangunan</p>
+      </div>
+    </div>
+
+    <!-- Navigasi Slide -->
+    <nav class="hidden lg:flex items-center gap-2 bg-slate-800/80 p-1.5 rounded-xl border border-slate-700/60">
+      <button onclick="switchSlide(1)" id="navBtn1" class="px-1 xl:px-4 py-2 rounded-lg text-[10px] xl:text-xs font-bold transition bg-emerald-600 text-white shadow">
+        <i class="fa-solid fa-home mr-1.5"></i> Slide 1: Beranda
+      </button>
+      <button onclick="switchSlide(2)" id="navBtn2" class="px-1 xl:px-4 py-2 rounded-lg text-[10px] xl:text-xs font-semibold transition text-slate-300 hover:text-white hover:bg-slate-700">
+        <i class="fa-solid fa-book-open mr-1.5"></i> Slide 2: Materi
+      </button>
+      <button onclick="switchSlide(3)" id="navBtn3" class="px-1 xl:px-4 py-2 rounded-lg text-[10px] xl:text-xs font-semibold transition text-slate-300 hover:text-white hover:bg-slate-700">
+        <i class="fa-solid fa-puzzle-piece mr-1.5"></i> Slide 3: Kuis Interaktif
+      </button>
+    </nav>
+
+    <!-- Info Profil User -->
+    <div class="flex items-center gap-3 bg-slate-800/60 border border-slate-700/50 px-3.5 py-1.5 rounded-xl">
+      <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">
+        <i class="fa-solid fa-user-graduate"></i>
+      </div>
+      <div class="text-left">
+        <p id="displayUserName" class="text-xs font-bold text-slate-200">Siswa</p>
+        <p id="displayUserSchool" class="text-[10px] text-slate-400 truncate max-w-[120px]">Sekolah</p>
+      </div>
+      <button onclick="resetSession()" title="Ganti Profil" class="ml-2 text-slate-400 hover:text-red-400 text-xs transition">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- KONTEN UTAMA SLIDE -->
+  <main class="flex-grow max-w-6xl w-full mx-auto p-4 sm:p-6 md:p-8 flex items-center justify-center">
+
+    <!-- ================= SLIDE 1: BERANDA & INFORMASI ================= -->
+    <section id="slide1" class="w-full slide-fade">
+      <div class="bg-gradient-to-br from-slate-800/90 to-slate-900 border border-slate-700/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+        <div class="absolute right-0 top-0 translate-x-12 -translate-y-12 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-3xl relative z-10">
+          <span class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider mb-6">
+            <i class="fa-solid fa-circle-dot animate-pulse"></i> Modul Belajar Interaktif
+          </span>
+
+          <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
+            Interaksi Antar Wilayah Terhadap Pembangunan
+          </h2>
+          
+          <p class="text-slate-300 text-base md:text-lg leading-relaxed mb-8">
+            Selamat datang, <span id="welcomeNameText" class="text-emerald-400 font-bold">Siswa</span> dari <span id="welcomeSchoolText" class="text-emerald-400 font-bold">Sekolah</span>! Media pembelajaran ini dirancang untuk membantumu memahami dinamika keruangan, pusat pertumbuhan, serta dampak interaksi wilayah terhadap kemajuan ekonomi dan sosial.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xl">
+                <i class="fa-solid fa-book"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-semibold text-slate-400 uppercase">Materi Pembelajaran</h4>
+                <p class="text-sm font-bold text-white">Faktor, Teori &amp; Dampak</p>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-semibold text-slate-400 uppercase">Evaluasi Kompetensi</h4>
+                <p class="text-sm font-bold text-white">3 Jenis Kuis Interaktif</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+            <button onclick="switchSlide(2)" class="w-full sm:w-auto justify-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-900/30 transition flex items-center gap-2">
+              <span>Mulai Pelajari Materi</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+            <button onclick="switchSlide(3)" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold px-6 py-3.5 rounded-xl transition">
+              Langsung ke Kuis
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 2: MATERI PEMBELAJARAN ================= -->
+    <section id="slide2" class="w-full slide-fade hidden">
+      <div class="flex flex-col gap-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-800/90 border border-slate-700/60 p-6 rounded-2xl">
+          <div>
+            <span class="text-sm font-bold text-emerald-400 uppercase tracking-wider">Slide 2 dari 3</span>
+            <h2 class="text-2xl font-extrabold text-white mt-0.5">Materi &amp; Konsep Interaksi Antar Wilayah</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="switchSlide(1)" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-semibold transition">Sebelumnya</button>
+            <button onclick="switchSlide(3)" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-sm font-bold transition flex items-center gap-1.5">
+              <span>Lanjut ke Kuis</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6">
+          <!-- Card 1 -->
+          <div class="bg-slate-800/90 border border-slate-700/60 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <img src="asset/materi1.jpg" alt="Materi faktor pendorong interaksi antarwilayah" class="mb-5 block w-full h-auto rounded-xl object-contain">
+              <div class="max-w-4xl w-full mx-auto">
+              <h3 class="text-xl font-bold text-white mb-3">1. Faktor Pendorong Interaksi</h3>
+              <p class="text-slate-200 text-base leading-relaxed mb-5">
+                Menurut Edward Ullman, hubungan antarwilayah terbentuk ketika kebutuhan dan potensi yang berbeda saling menghubungkan. Tiga faktor berikut menentukan apakah pertukaran menarik dan dapat dilakukan:
+              </p>
+              <ul class="space-y-3 text-base leading-relaxed text-slate-200">
+                <li class="bg-slate-900/75 p-4 rounded-lg border border-slate-700/50">
+                  <strong class="text-emerald-400">Komplementaritas Regional:</strong> Satu wilayah memiliki surplus barang atau jasa yang dibutuhkan wilayah lain. Contohnya, wilayah pertanian memasok beras ke kota, sedangkan kota menyediakan pasar, layanan kesehatan, dan barang industri bagi desa.
+                </li>
+                <li class="bg-slate-900/75 p-4 rounded-lg border border-slate-700/50">
+                  <strong class="text-emerald-400">Kesempatan Antara:</strong> Interaksi ke wilayah yang lebih jauh dapat berkurang jika ada tempat yang lebih dekat dengan barang atau jasa serupa. Alternatif terdekat ini menghemat waktu dan biaya perjalanan.
+                </li>
+                <li class="bg-slate-900/75 p-4 rounded-lg border border-slate-700/50">
+                  <strong class="text-emerald-400">Kemudahan Transfer:</strong> Pertukaran bergantung pada biaya dan waktu perpindahan dibanding manfaatnya. Jalan, pelabuhan, angkutan, dan jaringan komunikasi yang baik menurunkan hambatan, sedangkan jarak jauh atau ongkos tinggi dapat melemahkan hubungan.
+                </li>
+              </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-slate-800/90 border border-slate-700/60 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <img src="asset/materi2.jpg" alt="Materi teori interaksi wilayah" class="mb-5 block w-full h-auto rounded-xl object-contain">
+              <div class="max-w-4xl w-full mx-auto">
+              <h3 class="text-xl font-bold text-white mb-3">2. Teori Interaksi Wilayah</h3>
+              <p class="text-slate-200 text-base leading-relaxed mb-5">
+                Teori interaksi membantu memperkirakan kuatnya hubungan antara dua pusat kegiatan dan batas wilayah pengaruhnya. Hasil perhitungan merupakan model kecenderungan, bukan angka pasti untuk semua jenis hubungan.
+              </p>
+              <ul class="space-y-3 text-base leading-relaxed text-slate-200">
+                <li class="bg-slate-900/75 p-4 rounded-lg border border-slate-700/50">
+                  <strong class="text-sky-300">Teori Gravitasi (W.J. Reilly):</strong> Rumus sederhananya I = (P1 x P2) / d^2. P1 dan P2 adalah jumlah penduduk, sedangkan d adalah jarak. Dengan faktor lain dianggap sama, penduduk yang lebih besar meningkatkan interaksi, sementara jarak yang makin jauh menurunkannya secara cepat.
+                </li>
+                <li class="bg-slate-900/75 p-4 rounded-lg border border-slate-700/50">
+                  <strong class="text-sky-300">Teori Titik Henti:</strong> Teori ini memperkirakan batas layanan di antara dua kota berdasarkan jarak dan jumlah penduduknya. Titik tersebut cenderung lebih dekat ke kota yang penduduknya lebih sedikit karena kota yang lebih besar memiliki daya tarik lebih kuat. Misalnya, kota berpenduduk 400 ribu jiwa akan menarik titik henti lebih dekat ke kota tetangganya yang berpenduduk 100 ribu jiwa.
+                </li>
+              </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-slate-800/90 border border-slate-700/60 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <img src="asset/materi 3.jpg" alt="Materi dampak interaksi terhadap pembangunan" class="mb-5 block w-full h-auto rounded-xl object-contain">
+              <div class="max-w-4xl w-full mx-auto">
+              <h3 class="text-xl font-bold text-white mb-3">3. Dampak Terhadap Pembangunan</h3>
+              <p class="text-slate-200 text-base leading-relaxed mb-5">
+                Interaksi antarwilayah membawa peluang sekaligus tantangan. Dampaknya dipengaruhi oleh akses transportasi, persebaran layanan, kesiapan masyarakat, dan cara pembangunan dikelola.
+              </p>
+              <ul class="space-y-3 text-base leading-relaxed text-slate-200">
+                <li class="bg-slate-900/75 p-4 rounded-lg border border-slate-700/50">
+                  <strong class="text-amber-400">Dampak Positif:</strong> Pasar yang lebih luas membantu produsen menjual hasilnya dan membuka peluang kerja. Arus informasi, teknologi, pendidikan, serta layanan kesehatan juga dapat menjangkau wilayah yang sebelumnya sulit diakses.
+                </li>
+                <li class="bg-slate-900/75 p-4 rounded-lg border border-slate-700/50">
+                  <strong class="text-amber-400">Dampak Negatif:</strong> Kegiatan ekonomi yang terkonsentrasi di kota dapat mendorong urbanisasi, kemacetan, dan alih fungsi lahan pertanian. Jika investasi dan layanan tidak tersebar merata, wilayah pinggiran berisiko tertinggal dan kesenjangan desa-kota meningkat.
+                </li>
+              </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 3: KUIS INTERAKTIF ================= -->
+    <section id="slide3" class="w-full slide-fade hidden">
+      <div class="bg-slate-800/80 border border-slate-700/60 rounded-3xl p-6 md:p-10 shadow-2xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-700/60 mb-8">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Evaluasi Pembelajaran</span>
+            <h2 class="text-2xl font-extrabold text-white mt-0.5">Kuis Interaktif Geografi</h2>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <span id="quizScoreBadge" class="bg-emerald-500/20 text-emerald-400 font-bold px-4 py-2 rounded-xl text-sm border border-emerald-500/30">
+              Nilai: <span id="currentScore">0</span> / 100 <span class="ml-2">Benar: <span id="correctAnswerCount">0</span> / 15</span>
+            </span>
+            <button onclick="switchSlide(2)" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-xs font-semibold transition">Kembali ke Materi</button>
+          </div>
+        </div>
+
+        <!-- TABS MENU KUIS -->
+        <div id="quizTabs" class="flex flex-wrap gap-2 mb-8 border-b border-slate-700/60 pb-4">
+          <button onclick="switchQuizTab(1)" id="tabBtn1" class="px-4 py-2.5 rounded-xl text-xs font-bold transition bg-emerald-600 text-white shadow">
+            1. Pilihan Ganda
+          </button>
+          <button onclick="switchQuizTab(2)" id="tabBtn2" disabled class="px-4 py-2.5 rounded-xl text-xs font-semibold transition bg-slate-900 text-slate-300 hover:bg-slate-700 opacity-50 cursor-not-allowed">
+            2. Mengelompokkan Wilayah
+          </button>
+          <button onclick="switchQuizTab(3)" id="tabBtn3" disabled class="px-4 py-2.5 rounded-xl text-xs font-semibold transition bg-slate-900 text-slate-300 hover:bg-slate-700 opacity-50 cursor-not-allowed">
+            3. Mencocokkan Pasangan
+          </button>
+        </div>
+
+        <!-- ================= QUIZ 1: PILIHAN GANDA ================= -->
+        <div id="quizSection1" class="space-y-6">
+          <div class="bg-slate-900/60 border border-slate-700/60 rounded-2xl p-6">
+            <span class="text-xs font-bold text-emerald-400 uppercase">Soal Pilihan Ganda 1 dari 5</span>
+            <p class="text-white font-semibold text-base mt-2 mb-4">
+              1. Kondisi saling melengkapi antarwilayah di mana suatu wilayah mengalami surplus sumber daya dan wilayah lain mengalami defisit disebut...
+            </p>
+            <div id="mcq1Options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="answerMCQ(1, 'A', false)" class="mcq-btn-1 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">
+                A. Spatial Transferability
+              </button>
+              <button onclick="answerMCQ(1, 'B', true)" class="mcq-btn-1 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">
+                B. Regional Complementarity
+              </button>
+              <button onclick="answerMCQ(1, 'C', false)" class="mcq-btn-1 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">
+                C. Intervening Opportunity
+              </button>
+              <button onclick="answerMCQ(1, 'D', false)" class="mcq-btn-1 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">
+                D. Gravitational Model
+              </button>
+            </div>
+            <div id="mcq1Feedback" class="mt-4 hidden text-xs font-bold"></div>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-700/60 rounded-2xl p-6">
+            <span class="text-xs font-bold text-emerald-400 uppercase">Soal Pilihan Ganda 2 dari 5</span>
+            <p class="text-white font-semibold text-base mt-2 mb-4">
+              2. Tokoh geografi yang mengemukakan teori interaksi wilayah berdasarkan jumlah penduduk dan jarak adalah...
+            </p>
+            <div id="mcq2Options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="answerMCQ(2, 'A', false)" class="mcq-btn-2 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">
+                A. Walter Christaller
+              </button>
+              <button onclick="answerMCQ(2, 'B', false)" class="mcq-btn-2 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">
+                B. Bintarto
+              </button>
+              <button onclick="answerMCQ(2, 'C', true)" class="mcq-btn-2 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">
+                C. W.J. Reilly (Teori Gravitasi)
+              </button>
+              <button onclick="answerMCQ(2, 'D', false)" class="mcq-btn-2 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">
+                D. Ernest Burgess
+              </button>
+            </div>
+            <div id="mcq2Feedback" class="mt-4 hidden text-xs font-bold"></div>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-700/60 rounded-2xl p-6">
+            <span class="text-xs font-bold text-emerald-400 uppercase">Soal Pilihan Ganda 3 dari 5</span>
+            <p class="text-white font-semibold text-base mt-2 mb-4">3. Jika wilayah yang lebih dekat menyediakan barang serupa, faktor apa yang dapat mengurangi interaksi dengan wilayah yang lebih jauh?</p>
+            <div id="mcq3Options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="answerMCQ(3, 'A', false)" class="mcq-btn-3 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">A. Kemudahan transfer</button>
+              <button onclick="answerMCQ(3, 'B', false)" class="mcq-btn-3 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">B. Komplementaritas regional</button>
+              <button onclick="answerMCQ(3, 'C', true)" class="mcq-btn-3 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">C. Kesempatan antara</button>
+              <button onclick="answerMCQ(3, 'D', false)" class="mcq-btn-3 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">D. Pertumbuhan penduduk</button>
+            </div>
+            <div id="mcq3Feedback" class="mt-4 hidden text-xs font-bold"></div>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-700/60 rounded-2xl p-6">
+            <span class="text-xs font-bold text-emerald-400 uppercase">Soal Pilihan Ganda 4 dari 5</span>
+            <p class="text-white font-semibold text-base mt-2 mb-4">4. Menurut teori gravitasi, jika jarak dua kota menjadi dua kali lipat sementara jumlah penduduk tetap, kekuatan interaksinya menjadi...</p>
+            <div id="mcq4Options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="answerMCQ(4, 'A', true)" class="mcq-btn-4 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">A. Seperempat dari semula</button>
+              <button onclick="answerMCQ(4, 'B', false)" class="mcq-btn-4 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">B. Dua kali lebih besar</button>
+              <button onclick="answerMCQ(4, 'C', false)" class="mcq-btn-4 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">C. Tetap sama</button>
+              <button onclick="answerMCQ(4, 'D', false)" class="mcq-btn-4 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">D. Empat kali lebih besar</button>
+            </div>
+            <div id="mcq4Feedback" class="mt-4 hidden text-xs font-bold"></div>
+          </div>
+
+          <div class="bg-slate-900/60 border border-slate-700/60 rounded-2xl p-6">
+            <span class="text-xs font-bold text-emerald-400 uppercase">Soal Pilihan Ganda 5 dari 5</span>
+            <p class="text-white font-semibold text-base mt-2 mb-4">5. Pembangunan jalan dan pelabuhan yang menurunkan waktu serta biaya pengiriman terutama meningkatkan faktor...</p>
+            <div id="mcq5Options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="answerMCQ(5, 'A', false)" class="mcq-btn-5 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">A. Kesempatan antara</button>
+              <button onclick="answerMCQ(5, 'B', true)" class="mcq-btn-5 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">B. Kemudahan transfer</button>
+              <button onclick="answerMCQ(5, 'C', false)" class="mcq-btn-5 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">C. Komplementaritas regional</button>
+              <button onclick="answerMCQ(5, 'D', false)" class="mcq-btn-5 p-3.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-left text-sm transition">D. Titik henti</button>
+            </div>
+            <div id="mcq5Feedback" class="mt-4 hidden text-xs font-bold"></div>
+          </div>
+
+          <div class="pt-5 border-t border-slate-700/60 flex justify-end">
+            <button id="nextQuizBtn1" onclick="switchQuizTab(2)" disabled class="px-5 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-sm font-bold text-white transition opacity-50 cursor-not-allowed">
+              Berikutnya: Mengelompokkan Wilayah <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= QUIZ 2: MENGELOMPOKKAN WILAYAH ================= -->
+        <div id="quizSection2" class="space-y-6 hidden">
+          <div class="bg-slate-900/60 border border-slate-700/60 rounded-2xl p-6">
+            <span class="text-xs font-bold text-emerald-400 uppercase">Kuis Mengelompokkan Kategori</span>
+            <p class="text-white font-semibold text-base mt-2 mb-2">
+              Kelompokkan karakteristik berikut ke dalam kategori yang tepat (Klik tombol untuk menguji):
+            </p>
+            <p class="text-slate-400 text-xs mb-6">Tentukan apakah karakteristik tersebut merupakan ciri Wilayah Desa atau Wilayah Kota.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Item 1 -->
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                <p class="text-sm font-semibold text-white mb-3">1. Dominasi mata pencaharian di sektor agraris / pertanian</p>
+                <div class="flex gap-2">
+                  <button onclick="checkGroup(1, 'desa', true)" class="group-btn-1 flex-1 bg-slate-700 hover:bg-green-600 text-xs py-2 rounded-lg font-bold transition">Desa</button>
+                  <button onclick="checkGroup(1, 'kota', false)" class="group-btn-1 flex-1 bg-slate-700 hover:bg-red-600 text-xs py-2 rounded-lg font-bold transition">Kota</button>
+                </div>
+                <div id="groupFeedback1" class="mt-2 text-xs font-bold hidden"></div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                <p class="text-sm font-semibold text-white mb-3">2. Pusat industri manufaktur, perdagangan &amp; jasa modern</p>
+                <div class="flex gap-2">
+                  <button onclick="checkGroup(2, 'desa', false)" class="group-btn-2 flex-1 bg-slate-700 hover:bg-red-600 text-xs py-2 rounded-lg font-bold transition">Desa</button>
+                  <button onclick="checkGroup(2, 'kota', true)" class="group-btn-2 flex-1 bg-slate-700 hover:bg-green-600 text-xs py-2 rounded-lg font-bold transition">Kota</button>
+                </div>
+                <div id="groupFeedback2" class="mt-2 text-xs font-bold hidden"></div>
+              </div>
+
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                <p class="text-sm font-semibold text-white mb-3">3. Kepadatan penduduk tinggi dengan bangunan dan kegiatan yang rapat</p>
+                <div class="flex gap-2">
+                  <button onclick="checkGroup(3, 'desa', false)" class="group-btn-3 flex-1 bg-slate-700 hover:bg-red-600 text-xs py-2 rounded-lg font-bold transition">Desa</button>
+                  <button onclick="checkGroup(3, 'kota', true)" class="group-btn-3 flex-1 bg-slate-700 hover:bg-green-600 text-xs py-2 rounded-lg font-bold transition">Kota</button>
+                </div>
+                <div id="groupFeedback3" class="mt-2 text-xs font-bold hidden"></div>
+              </div>
+
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                <p class="text-sm font-semibold text-white mb-3">4. Mata pencaharian beragam di sektor perdagangan, jasa, dan industri</p>
+                <div class="flex gap-2">
+                  <button onclick="checkGroup(4, 'desa', false)" class="group-btn-4 flex-1 bg-slate-700 hover:bg-red-600 text-xs py-2 rounded-lg font-bold transition">Desa</button>
+                  <button onclick="checkGroup(4, 'kota', true)" class="group-btn-4 flex-1 bg-slate-700 hover:bg-green-600 text-xs py-2 rounded-lg font-bold transition">Kota</button>
+                </div>
+                <div id="groupFeedback4" class="mt-2 text-xs font-bold hidden"></div>
+              </div>
+
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col justify-between">
+                <p class="text-sm font-semibold text-white mb-3">5. Permukiman relatif jarang dengan hubungan sosial warga yang erat</p>
+                <div class="flex gap-2">
+                  <button onclick="checkGroup(5, 'desa', true)" class="group-btn-5 flex-1 bg-slate-700 hover:bg-green-600 text-xs py-2 rounded-lg font-bold transition">Desa</button>
+                  <button onclick="checkGroup(5, 'kota', false)" class="group-btn-5 flex-1 bg-slate-700 hover:bg-red-600 text-xs py-2 rounded-lg font-bold transition">Kota</button>
+                </div>
+                <div id="groupFeedback5" class="mt-2 text-xs font-bold hidden"></div>
+              </div>
+            </div>
+            <div class="pt-5 mt-6 border-t border-slate-700/60 flex items-center justify-between gap-3">
+              <button onclick="switchQuizTab(1)" class="px-4 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-semibold text-white transition">Sebelumnya</button>
+              <button id="nextQuizBtn2" onclick="switchQuizTab(3)" disabled class="px-5 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-sm font-bold text-white transition opacity-50 cursor-not-allowed">
+                Berikutnya: Mencocokkan <i class="fa-solid fa-arrow-right ml-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= QUIZ 3: MENCOCOKKAN PASANGAN ================= -->
+        <div id="quizSection3" class="space-y-6 hidden">
+          <div class="bg-slate-900/60 border border-slate-700/60 rounded-2xl p-6">
+            <span class="text-xs font-bold text-emerald-400 uppercase">Kuis Mencocokkan Istilah</span>
+            <p class="text-white font-semibold text-base mt-2 mb-2">
+              Pasangkan istilah konsep interaksi wilayah dengan definisi yang paling sesuai:
+            </p>
+            <p class="text-slate-400 text-xs mb-6">Pilih jawaban yang tepat dari dropdown di bawah ini.</p>
+
+            <div class="space-y-4">
+              <!-- Pair 1 -->
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="text-sm font-semibold text-white">
+                  <span class="text-emerald-400 font-bold mr-2">A.</span> Teori Titik Henti (Breaking Point Theory)
+                </div>
+                <div class="w-full sm:w-72">
+                  <select id="matchSelect1" onchange="checkMatch()" class="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-emerald-500">
+                    <option value="">-- Pilih Definisi --</option>
+                    <option value="wrong">Menghitung jumlah penduduk total wilayah</option>
+                    <option value="correct">Menentukan lokasi industri atau pasar antara dua kota</option>
+                    <option value="wrong">Hambatan jarak geografis mutlak</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Pair 2 -->
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="text-sm font-semibold text-white">
+                  <span class="text-emerald-400 font-bold mr-2">B.</span> Intervening Opportunity (Kesempatan Antara)
+                </div>
+                <div class="w-full sm:w-72">
+                  <select id="matchSelect2" onchange="checkMatch()" class="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-emerald-500">
+                    <option value="">-- Pilih Definisi --</option>
+                    <option value="correct">Adanya alternatif wilayah terdekat yang menawarkan komoditas serupa</option>
+                    <option value="wrong">Pertumbuhan penduduk desa yang sangat cepat</option>
+                    <option value="wrong">Pusat kota metropolitan utama</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="text-sm font-semibold text-white"><span class="text-emerald-400 font-bold mr-2">C.</span> Kemudahan Transfer</div>
+                <div class="w-full sm:w-72">
+                  <select id="matchSelect3" onchange="checkMatch()" class="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-emerald-500">
+                    <option value="">-- Pilih Definisi --</option>
+                    <option value="wrong">Batas pengaruh antara dua pusat kota</option>
+                    <option value="correct">Kemudahan perpindahan berdasarkan waktu, biaya, dan sarana</option>
+                    <option value="wrong">Wilayah yang memiliki surplus penduduk</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="text-sm font-semibold text-white"><span class="text-emerald-400 font-bold mr-2">D.</span> Teori Gravitasi</div>
+                <div class="w-full sm:w-72">
+                  <select id="matchSelect4" onchange="checkMatch()" class="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-emerald-500">
+                    <option value="">-- Pilih Definisi --</option>
+                    <option value="wrong">Menentukan persebaran jenis pekerjaan kota</option>
+                    <option value="wrong">Mengukur kemudahan transfer antarwilayah</option>
+                    <option value="correct">Interaksi meningkat oleh penduduk dan menurun oleh kuadrat jarak</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="text-sm font-semibold text-white"><span class="text-emerald-400 font-bold mr-2">E.</span> Komplementaritas Regional</div>
+                <div class="w-full sm:w-72">
+                  <select id="matchSelect5" onchange="checkMatch()" class="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-xl p-2.5 focus:outline-none focus:border-emerald-500">
+                    <option value="">-- Pilih Definisi --</option>
+                    <option value="correct">Wilayah dengan kebutuhan dan kelebihan sumber daya yang saling melengkapi</option>
+                    <option value="wrong">Kota yang menjadi batas pelayanan wilayah lain</option>
+                    <option value="wrong">Jarak yang memisahkan dua pusat permukiman</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div id="matchFeedback" class="mt-4 text-xs font-bold hidden"></div>
+            <div class="pt-5 mt-6 border-t border-slate-700/60 flex items-center justify-between gap-3">
+              <button onclick="switchQuizTab(2)" class="px-4 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-semibold text-white transition">Sebelumnya</button>
+              <button id="finishQuizBtn" onclick="finishQuiz()" disabled class="px-5 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-sm font-bold text-white transition opacity-50 cursor-not-allowed">
+                Selesaikan &amp; Lihat Sertifikat <i class="fa-solid fa-award ml-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="quizCertificate" class="hidden bg-white text-slate-900 border-4 border-emerald-700 rounded-2xl p-8 md:p-12 text-center">
+          <p class="text-sm font-bold uppercase tracking-widest text-emerald-700">Sertifikat Penyelesaian</p>
+          <h3 class="text-3xl font-extrabold mt-3">Sertifikat Apresiasi</h3>
+          <p class="mt-6 text-base">Diberikan kepada</p>
+          <p id="certificateStudentName" class="text-2xl font-bold mt-2"></p>
+          <p class="text-base mt-1">dari <span id="certificateStudentSchool" class="font-semibold"></span></p>
+          <p class="max-w-2xl mx-auto mt-6 text-base leading-relaxed">Atas partisipasi dan penyelesaian Evaluasi Pembelajaran Interaksi Antarwilayah terhadap Pembangunan.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto mt-8 text-left">
+            <p class="bg-emerald-50 p-4 rounded-xl">Jumlah benar: <strong id="certificateCorrectCount"></strong> dari 15 soal</p>
+            <p class="bg-emerald-50 p-4 rounded-xl">Nilai akhir: <strong id="certificateScore"></strong> dari 100</p>
+            <p class="bg-slate-100 p-4 rounded-xl">Pilihan ganda: <strong id="certificateMcqCount"></strong> dari 5 benar</p>
+            <p class="bg-slate-100 p-4 rounded-xl">Mengelompokkan: <strong id="certificateGroupCount"></strong> dari 5 benar</p>
+            <p class="bg-slate-100 p-4 rounded-xl sm:col-span-2">Mencocokkan: <strong id="certificateMatchCount"></strong> dari 5 benar</p>
+          </div>
+          <p id="certificateDate" class="mt-8 text-sm text-slate-600"></p>
+          <div class="no-print mt-8 flex flex-wrap justify-center gap-3">
+            <button onclick="window.print()" class="px-5 py-3 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl font-bold">Cetak / Simpan PDF</button>
+            <button onclick="resetQuiz()" class="px-5 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-bold">Ulangi Kuis</button>
+          </div>
+        </div>
+
+        <div id="quizFooter" class="mt-8 pt-6 border-t border-slate-700/60 flex items-center justify-between">
+          <button onclick="resetQuiz()" class="px-4 py-2.5 bg-slate-700 hover:bg-slate-600 rounded-xl text-xs font-semibold transition text-slate-200">
+            <i class="fa-solid fa-rotate-right mr-1.5"></i> Ulangi Kuis
+          </button>
+          <div class="text-xs text-slate-400">
+            Selesaikan semua soal untuk menguji pemahaman materi geografi Anda.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 border-t border-slate-800 py-4 px-6 text-center text-xs text-slate-500">
+    <p>Media Pembelajaran Interaktif Geografi • Dibuat khusus untuk Pembelajaran Interaktif Wilayah &amp; Pembangunan.</p>
+  </footer>
+
+  <!-- SCRIPT APLIKASI -->
+  <script>
+    // State Aplikasi
+    let currentUser = {
+      name: "",
+      school: ""
+    };
+    let quizScore = 0;
+    let quizAnswers = {
+      mcq: Array(5).fill(null),
+      group: Array(5).fill(null),
+      match: Array(5).fill(null)
+    };
+
+    // Saat Halaman Dimuat
+    window.onload = function() {
+      const savedName = localStorage.getItem('geo_student_name');
+      const savedSchool = localStorage.getItem('geo_student_school');
+      
+      if (savedName && savedSchool) {
+        currentUser.name = savedName;
+        currentUser.school = savedSchool;
+        applyUserData();
+        document.getElementById('loginModal').classList.add('hidden');
+      } else {
+        document.getElementById('loginModal').classList.remove('hidden');
+      }
+      updateQuizNavigation();
+    };
+
+    // Handler Login Sesi Awal
+    function handleLogin(event) {
+      event.preventDefault();
+      const name = document.getElementById('inputName').value.trim();
+      const school = document.getElementById('inputSchool').value.trim();
+
+      if (!name || !school) return;
+
+      currentUser.name = name;
+      currentUser.school = school;
+
+      localStorage.setItem('geo_student_name', name);
+      localStorage.setItem('geo_student_school', school);
+
+      applyUserData();
+      document.getElementById('loginModal').classList.add('hidden');
+    }
+
+    // Terapkan Data User ke UI
+    function applyUserData() {
+      document.getElementById('displayUserName').textContent = currentUser.name;
+      document.getElementById('displayUserSchool').textContent = currentUser.school;
+      document.getElementById('welcomeNameText').textContent = currentUser.name;
+      document.getElementById('welcomeSchoolText').textContent = currentUser.school;
+    }
+
+    // Reset Sesi / Ganti Profil
+    function resetSession() {
+      localStorage.removeItem('geo_student_name');
+      localStorage.removeItem('geo_student_school');
+      document.getElementById('inputName').value = '';
+      document.getElementById('inputSchool').value = '';
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+
+    // Navigasi Slide
+    function switchSlide(slideNum) {
+      document.getElementById('slide1').classList.add('hidden');
+      document.getElementById('slide2').classList.add('hidden');
+      document.getElementById('slide3').classList.add('hidden');
+
+      document.getElementById('navBtn1').className = "px-1 xl:px-4 py-2 rounded-lg text-[10px] xl:text-xs font-semibold transition text-slate-300 hover:text-white hover:bg-slate-700";
+      document.getElementById('navBtn2').className = "px-1 xl:px-4 py-2 rounded-lg text-[10px] xl:text-xs font-semibold transition text-slate-300 hover:text-white hover:bg-slate-700";
+      document.getElementById('navBtn3').className = "px-1 xl:px-4 py-2 rounded-lg text-[10px] xl:text-xs font-semibold transition text-slate-300 hover:text-white hover:bg-slate-700";
+
+      document.getElementById('slide' + slideNum).classList.remove('hidden');
+      document.getElementById('navBtn' + slideNum).className = "px-1 xl:px-4 py-2 rounded-lg text-[10px] xl:text-xs font-bold transition bg-emerald-600 text-white shadow";
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Navigasi Tab Kuis
+    function switchQuizTab(tabNum) {
+      if (tabNum < 1 || tabNum > 3) return;
+      if (tabNum > 1 && !isQuizStageComplete(tabNum - 1)) return;
+
+      document.getElementById('quizSection1').classList.add('hidden');
+      document.getElementById('quizSection2').classList.add('hidden');
+      document.getElementById('quizSection3').classList.add('hidden');
+
+      document.getElementById('tabBtn1').className = "px-4 py-2.5 rounded-xl text-xs font-semibold transition bg-slate-900 text-slate-300 hover:bg-slate-700";
+      document.getElementById('tabBtn2').className = "px-4 py-2.5 rounded-xl text-xs font-semibold transition bg-slate-900 text-slate-300 hover:bg-slate-700";
+      document.getElementById('tabBtn3').className = "px-4 py-2.5 rounded-xl text-xs font-semibold transition bg-slate-900 text-slate-300 hover:bg-slate-700";
+
+      document.getElementById('quizSection' + tabNum).classList.remove('hidden');
+      document.getElementById('tabBtn' + tabNum).className = "px-4 py-2.5 rounded-xl text-xs font-bold transition bg-emerald-600 text-white shadow";
+      updateQuizNavigation();
+    }
+
+    function isQuizStageComplete(stageNum) {
+      const stageNames = ['', 'mcq', 'group', 'match'];
+      return quizAnswers[stageNames[stageNum]].every(answer => answer !== null);
+    }
+
+    function setButtonLocked(button, locked) {
+      button.disabled = locked;
+      button.classList.toggle('opacity-50', locked);
+      button.classList.toggle('cursor-not-allowed', locked);
+    }
+
+    function updateQuizNavigation() {
+      const mcqComplete = isQuizStageComplete(1);
+      const groupComplete = isQuizStageComplete(2);
+      const matchComplete = isQuizStageComplete(3);
+
+      setButtonLocked(document.getElementById('tabBtn2'), !mcqComplete);
+      setButtonLocked(document.getElementById('tabBtn3'), !groupComplete);
+      setButtonLocked(document.getElementById('nextQuizBtn1'), !mcqComplete);
+      setButtonLocked(document.getElementById('nextQuizBtn2'), !groupComplete);
+      setButtonLocked(document.getElementById('finishQuizBtn'), !matchComplete);
+    }
+
+    // Logika Kuis Pilihan Ganda
+    function answerMCQ(qNum, optionChar, isCorrect) {
+      if (quizAnswers.mcq[qNum - 1] !== null) return;
+      const feedbackEl = document.getElementById('mcq' + qNum + 'Feedback');
+      const buttons = document.querySelectorAll('.mcq-btn-' + qNum);
+
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('opacity-70');
+      });
+
+      feedbackEl.classList.remove('hidden');
+      quizAnswers.mcq[qNum - 1] = isCorrect;
+      if (isCorrect) {
+        feedbackEl.innerHTML = '<span class="text-green-400"><i class="fa-solid fa-check-circle mr-1"></i> Benar! Konsep ini sangat tepat.</span>';
+      } else {
+        feedbackEl.innerHTML = '<span class="text-red-400"><i class="fa-solid fa-times-circle mr-1"></i> Kurang tepat. Pelajari kembali materi pada Slide 2.</span>';
+      }
+      updateScoreDisplay();
+      updateQuizNavigation();
+    }
+
+    // Logika Kuis Mengelompokkan
+    function checkGroup(itemNum, chosenCategory, isCorrect) {
+      if (quizAnswers.group[itemNum - 1] !== null) return;
+      const feedbackEl = document.getElementById('groupFeedback' + itemNum);
+      const buttons = document.querySelectorAll('.group-btn-' + itemNum);
+
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('opacity-70');
+      });
+
+      feedbackEl.classList.remove('hidden');
+      quizAnswers.group[itemNum - 1] = isCorrect;
+      if (isCorrect) {
+        feedbackEl.innerHTML = '<span class="text-green-400"><i class="fa-solid fa-check-circle mr-1"></i> Benar! Pengelompokan wilayah sudah akurat.</span>';
+      } else {
+        feedbackEl.innerHTML = '<span class="text-red-400"><i class="fa-solid fa-times-circle mr-1"></i> Kurang tepat. Perhatikan ciri khas wilayah tersebut.</span>';
+      }
+      updateScoreDisplay();
+      updateQuizNavigation();
+    }
+
+    // Logika Kuis Mencocokkan
+    function checkMatch() {
+      if (isQuizStageComplete(3)) return;
+      const selects = [...document.querySelectorAll('#quizSection3 select')];
+      if (selects.some(select => !select.value)) return;
+
+      quizAnswers.match = selects.map(select => select.value === 'correct');
+      selects.forEach(select => { select.disabled = true; });
+      const feedbackEl = document.getElementById('matchFeedback');
+      const correctCount = quizAnswers.match.filter(Boolean).length;
+
+      feedbackEl.classList.remove('hidden');
+      feedbackEl.innerHTML = '<span class="' + (correctCount === 5 ? 'text-green-400' : 'text-amber-400') + '"><i class="fa-solid fa-circle-info mr-1"></i> Jawaban benar: ' + correctCount + ' dari 5. Bagian mencocokkan selesai.</span>';
+      updateScoreDisplay();
+      updateQuizNavigation();
+    }
+
+    // Update Skor di UI
+    function updateScoreDisplay() {
+      const correctCount = Object.values(quizAnswers).flat().filter(answer => answer === true).length;
+      quizScore = Math.round((correctCount / 15) * 100);
+      document.getElementById('currentScore').textContent = quizScore;
+      document.getElementById('correctAnswerCount').textContent = correctCount;
+    }
+
+    function finishQuiz() {
+      if (!isQuizStageComplete(1) || !isQuizStageComplete(2) || !isQuizStageComplete(3)) return;
+      const countCorrect = stage => quizAnswers[stage].filter(Boolean).length;
+
+      document.getElementById('certificateStudentName').textContent = currentUser.name;
+      document.getElementById('certificateStudentSchool').textContent = currentUser.school;
+      document.getElementById('certificateCorrectCount').textContent = Object.values(quizAnswers).flat().filter(answer => answer === true).length;
+      document.getElementById('certificateScore').textContent = quizScore;
+      document.getElementById('certificateMcqCount').textContent = countCorrect('mcq');
+      document.getElementById('certificateGroupCount').textContent = countCorrect('group');
+      document.getElementById('certificateMatchCount').textContent = countCorrect('match');
+      document.getElementById('certificateDate').textContent = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      document.getElementById('quizTabs').classList.add('hidden');
+      document.getElementById('quizSection1').classList.add('hidden');
+      document.getElementById('quizSection2').classList.add('hidden');
+      document.getElementById('quizSection3').classList.add('hidden');
+      document.getElementById('quizFooter').classList.add('hidden');
+      document.getElementById('quizCertificate').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Reset Kuis
+    function resetQuiz() {
+      quizScore = 0;
+      quizAnswers = { mcq: Array(5).fill(null), group: Array(5).fill(null), match: Array(5).fill(null) };
+      updateScoreDisplay();
+
+      // Reset MCQ buttons
+      document.querySelectorAll('[class*="mcq-btn-"]').forEach(btn => {
+        btn.disabled = false;
+        btn.classList.remove('opacity-70');
+      });
+      document.querySelectorAll('#quizSection1 [id$="Feedback"]').forEach(feedback => feedback.classList.add('hidden'));
+
+      // Reset Group buttons
+      document.querySelectorAll('[class*="group-btn-"]').forEach(btn => {
+        btn.disabled = false;
+        btn.classList.remove('opacity-70');
+      });
+      document.querySelectorAll('#quizSection2 [id$="Feedback"]').forEach(feedback => feedback.classList.add('hidden'));
+
+      // Reset Selects
+      document.querySelectorAll('#quizSection3 select').forEach(select => {
+        select.value = '';
+        select.disabled = false;
+      });
+      document.getElementById('matchFeedback').classList.add('hidden');
+      document.getElementById('quizCertificate').classList.add('hidden');
+      document.getElementById('quizTabs').classList.remove('hidden');
+      document.getElementById('quizFooter').classList.remove('hidden');
+      switchQuizTab(1);
+      updateQuizNavigation();
+    }
+  </script>
+</body>
+</html>
